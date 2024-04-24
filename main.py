@@ -7,7 +7,7 @@ from flet_core.control_event import ControlEvent
 def main(page: ft.Page) -> None:
     page.title = 'Tectonic fault coordinates input form'
     page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.theme_mode = ft.ThemeMode.LIGHT
+    page.theme_mode = ft.ThemeMode.DARK
     page.window_width = 800
     page.window_height = 800
     page.window_resizable = False
