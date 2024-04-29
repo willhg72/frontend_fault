@@ -21,7 +21,6 @@ class FetchTectonicFaults:
         }
         
         url = f'{config["URL"]}?latitude={self.latitude}&longitude={self.longitude}'
-        #print(url)
         try:
             response = requests.get(url, headers=params)
             if response.status_code == requests.codes.ok:
@@ -37,6 +36,5 @@ class FetchTectonicFaults:
         except requests.exceptions.TooManyRedirects as e:
                 self.faults  = {"detail": "Too many redirects"}
         except requests.exceptions.RequestException as e:
-                self.faults  = {"detail": "Unknown Error"}
-        print(self.faults)        
+                self.faults  = {"detail": "Unknown Error"}        
         return self.faults

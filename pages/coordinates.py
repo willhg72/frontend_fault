@@ -16,7 +16,7 @@ class CoordinatesForm(ft.Column):
         #self.utils = 
         self.distances: dict[str, float] = {}
         self.build()
-        #self.update()
+
         
         
     def build(self):    
@@ -61,15 +61,6 @@ class CoordinatesForm(ft.Column):
                 ),
         )
 
-        #Response control DataTable
-        # self.coordinates_response = ft.Column(
-        #         scroll='auto',
-        #         controls=[
-        #                 ft.DataTable(
-        #                     **self.styles.coordinates_data_table_styles(),
-        #                 )
-        #             ]          
-        # )
         self.coordinates_response = ft.DataTable(
                     **self.styles.coordinates_data_table_styles(),
         )
@@ -135,7 +126,6 @@ class CoordinatesForm(ft.Column):
                     index += 1 
                 self.page.update()
             else:
-                print(self.distances)
                 self.page.snack_bar = ft.SnackBar(
                     ft.Text(
                         spans=[
