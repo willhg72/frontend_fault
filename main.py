@@ -1,5 +1,5 @@
 import flet as ft
-from pages.coordinates import Coordinates
+from pages.coordinates import CoordinatesForm
 from utils.utils import Attributes
 
  
@@ -13,10 +13,11 @@ class Main(ft.UserControl):
         self.page.theme_mode = ft.ThemeMode.LIGHT
         self.page.bgcolor = Attributes.BG_PAGE_COLOR_BLUE.value
         self.init()
-        self.page.update()
+        #page.scroll = "always"
+        #self.page.update()
 
     def init(self):
-        self.coordinates_page = Coordinates(self.page)
+        self.coordinates_page = CoordinatesForm(self.page)
         self.page.add(self.coordinates_page)
         self.page.update()
     
