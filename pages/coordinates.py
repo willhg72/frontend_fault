@@ -110,7 +110,7 @@ class CoordinatesForm(ft.Column):
         # text define a container to wrap the textfield in
 
 
-    def fetch_data(self,e):
+    async def fetch_data(self,e):
         res: dict[str, Any] = self.validate_data(self.coordinates_latitude.value, self.coordinates_longitude.value)
         if res["isvalid"]:
             self.coordinates_response.rows = []
@@ -124,7 +124,7 @@ class CoordinatesForm(ft.Column):
                         self.render_distance_component(fault,distance, index),
                     )        
                     index += 1 
-                self.page.update()
+                await self.page.update_async()
             else:
                 self.page.snack_bar = ft.SnackBar(
                     ft.Text(
@@ -140,7 +140,7 @@ class CoordinatesForm(ft.Column):
                     )
                 )
                 self.page.snack_bar.open = True
-                self.page.update()                      
+                await self.page.update_async()                      
         else:
             self.coordinates_latitude.value = ""
             self.coordinates_longitude.value = ""
@@ -161,7 +161,7 @@ class CoordinatesForm(ft.Column):
             
             
             self.page.snack_bar.open = True
-            self.page.update()    
+            await self.page.update_async()    
 
 
     def render_distance_component(self,fault: str, distance:float, index: int):
