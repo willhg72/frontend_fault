@@ -30,7 +30,7 @@ class FetchTectonicFaults:
         except requests.exceptions.HTTPError as e:
                 self.faults  = {"detail": "Bad request"}
         except requests.exceptions.ConnectionError as e:
-                self.faults  = {"detail": 'Connection error'}
+                self.faults  = {"detail": f'Connection error => {url}' }
         except requests.exceptions.Timeout as e:
                 self.faults  = {"detail": "Connection timeout"}
         except requests.exceptions.TooManyRedirects as e:
