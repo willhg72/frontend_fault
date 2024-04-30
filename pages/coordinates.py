@@ -21,9 +21,9 @@ class CoordinatesForm(ft.Column):
         
     def build(self):    
         # Coordinates, longitude and latitude
-        self.coordinates_latitude = ft.TextField(focused_bgcolor=ft.colors.YELLOW_50, helper_text="79.3546643 ")
+        self.coordinates_latitude = ft.TextField(autofocus=True ,focused_bgcolor=ft.colors.YELLOW_50, helper_text="79.3546643 ")
         self.coordinates_latitude_wrapped = UtilsMethods.text_field_container(expand= False, name="Latitude",control=self.coordinates_latitude)
-        self.coordinates_longitude = ft.TextField(focused_bgcolor=ft.colors.YELLOW_50, helper_text="4.8022234 ")
+        self.coordinates_longitude = ft.TextField()
         self.coordinates_longitude_wrapped = UtilsMethods.text_field_container(expand= False, name='Longitude',control=self.coordinates_longitude)
         self.coordinates_container = ft.Container(
             content= ft.Column(
@@ -68,6 +68,7 @@ class CoordinatesForm(ft.Column):
         #rendering the form
         self.display_form_controls()
 
+
         
 
     def display_form_controls(self):    
@@ -93,7 +94,6 @@ class CoordinatesForm(ft.Column):
                             controls=[
                                 self.coordinates_container,
                                 ft.Row(controls=[self.coordinates_submit_btn], alignment='end'),
-                                ft.Divider(),
                                 self.coordinates_response,
                             ],
                         ),
@@ -107,7 +107,7 @@ class CoordinatesForm(ft.Column):
                 self.coordinates_main_container
         ]
 
-        # text define a container to wrap the textfield in
+
 
 
     async def fetch_data(self,e):
@@ -116,6 +116,10 @@ class CoordinatesForm(ft.Column):
             self.coordinates_response.rows = []
             self.data = FetchTectonicFaults(self.coordinates_latitude.value, self.coordinates_longitude.value)
             self.distances = self.data.get_distances()
+            #clean the input fields
+            self.coordinates_latitude.value = ""
+            self.coordinates_longitude.value = ""
+
             if len(self.distances) > 1:
                 index = 1
                 
@@ -142,8 +146,6 @@ class CoordinatesForm(ft.Column):
                 self.page.snack_bar.open = True
                 await self.page.update_async()                      
         else:
-            self.coordinates_latitude.value = ""
-            self.coordinates_longitude.value = ""
             self.page.snack_bar = ft.SnackBar(
                     ft.Text(
                         spans=[
@@ -157,11 +159,10 @@ class CoordinatesForm(ft.Column):
                         ]
                     )
                 )            
-            
-            
-            
             self.page.snack_bar.open = True
-            await self.page.update_async()    
+            await self.page.update_async()
+
+
 
 
     def render_distance_component(self,fault: str, distance:float, index: int):
@@ -169,24 +170,26 @@ class CoordinatesForm(ft.Column):
             cells=[
                 ft.DataCell(ft.Text(index)),
                 ft.DataCell(ft.Text(fault)),
-                ft.DataCell(ft.Text(value=str(distance))),
+                ft.DataCell(ft.Text(value='{:,.2f}'.format(distance))),
             ],
         )
 
     def validate_data(self, latitude: str, longitude: str):
-        pattern = r'/^[-]?\d+[\.]?\d*, [-]?\d+[\.]?\d*$/'
+        pattern = r'^-?\d+(\.\d+)?$'
         validate_dt = True
         detail: str = ""
         if latitude and longitude: 
-            if re.match(pattern, latitude) and re.match(pattern, longitude):
+
+            if not re.fullmatch(pattern, latitude) or not re.fullmatch(pattern, longitude):
                 validate_dt = False
                 detail = "Invalid coordinates, Latitude must be in the [-90; 90] range and Longitude must be in the [-180; 180] range."
-            if  float(latitude) <= -90.0 or float(latitude) >= 90.0:
-                validate_dt = False
-                detail="Invalid latitude, must be in the [-90; 90] range."
-            if float(longitude) <= -180.0 or float(longitude) >= 180.0:
-                validate_dt = False
-                detail="Invalid longitude, must be in the [-180; 180] range."
+            else:
+                if  float(latitude) <= -90.0 or float(latitude) >= 90.0:
+                    validate_dt = False
+                    detail="Invalid latitude, must be in the [-90; 90] range."
+                if float(longitude) <= -180.0 or float(longitude) >= 180.0:
+                    validate_dt = False
+                    detail="Invalid longitude, must be in the [-180; 180] range."
         else:
             validate_dt = False
             detail = "Please enter the coordinates; both Latitude and Longitude should be filled out."        

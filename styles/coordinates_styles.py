@@ -41,10 +41,12 @@ class CoordinatesStyles:
 
         return {
             'border_radius': 8,
-            #'border': ft.border.all(2, '#ebebeb'),
+            'data_row_max_height': 33,
+            'data_text_style': ft.TextStyle(size=11),
+            'border': ft.border.all(2, '#ebebeb'),
             'horizontal_lines': ft.border.BorderSide(1, '#ebebeb'),
             'columns': [
-                ft.DataColumn(ft.Text(index, size=12, color="black", weight="bold")) 
+                ft.DataColumn(ft.Text(index, size=13, color="black", weight="bold"))
                 for index in column_names
             ]
         }
