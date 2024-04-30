@@ -24,6 +24,6 @@ class Main(ft.UserControl):
 
 
 
-#ft.app(target=Main, view = ft.WEB_BROWSER)
+ft.app(target=Main, view = ft.WEB_BROWSER)
     
     
