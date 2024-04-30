@@ -1,11 +1,14 @@
-#import flet as ft
-#from main import Main
+import flet as ft
+import flet_fastapi
+from main import Main
 
 
-# def main():
-    #ft.app(target=Main, view = ft.WEB_BROWSER)
+async def main():
+    ft.app(target=Main, view = ft.WEB_BROWSER)
     
-#ft.app(target=Main)
+#    ft.app(target=Main)
     
-# if __name__ == "__main__":
-#     main()
+if __name__ == "__main__":
+    main()
+
+#app= flet_fastapi.app(Main)
