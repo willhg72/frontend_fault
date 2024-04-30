@@ -24,6 +24,6 @@ class Main(ft.UserControl):
 
 
 
-#ft.app(target=Main)
+ft.app(target=Main)
     
     
